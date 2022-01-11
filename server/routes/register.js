@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const MongoConfig = require("../config/mongoConfig");
+const mongoConfig = require("../config/mongoConfig");
 const userDetails = require("../models/userSchema");
 
 router.post ('/', 
