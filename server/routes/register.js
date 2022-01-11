@@ -3,16 +3,16 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
+const MongoConfig = require("../config/mongoConfig");
+const userDetails = require("../models/userSchema");
 
-mongoConfig = require('../config/mongoConfig');
-
-router.post ('/register', 
+router.post ('/', 
     [
         check('fname').notEmpty().withMessage('First name is required'),
         check('lname').notEmpty().withMessage('Last name is required'),
         check('email').notEmpty().withMessage('Email is required'),
         check('email').isEmail().withMessage('Email is invalid'),
-        check('password').notEmpty().withMessage('Password is required'),
+        check('password').notEmpty().withMessage('Password is required')
     ], (req, res) => 
     {
         const hashPass = bcrypt.hashSync(req.body.password, 10);
@@ -25,7 +25,7 @@ router.post ('/register',
                 password: hashPass
             });
 
-            bcrypt.compare(req.body.comparePassword, hashPass, function (err, matches)
+        bcrypt.compare(req.body.confirmPassword, hashPass, function (err, matches)
             {
                 if(!matches)
                 {
