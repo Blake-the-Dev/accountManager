@@ -15,6 +15,12 @@ router.post ('/',
         check('password').notEmpty().withMessage('Password is required')
     ], (req, res) => 
     {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const hashPass = bcrypt.hashSync(req.body.password, 10);
 
         const newUser = userDetails(
@@ -29,11 +35,11 @@ router.post ('/',
             {
                 if(!matches)
                 {
-                    console.log("Password does not match");
+                    console.log("Passwords do not match");
                 }
                 else 
                 {
-                    console.log("Password matches");
+                    console.log("User registered");
                     res.send("User registered");
                     newUser.save();
                 }

@@ -6,11 +6,11 @@ const mongoConfig = require("../config/mongoConfig");
 const userDetails = require("../models/userSchema");
 
 router.post('/', async (req, res) => {
+
     const searchUser = await userDetails.findOne(
         {
             email: req.body.email
-        }
-    )
+    });
 
     if (searchUser) {
         const validatePass = await bcrypt.compare(req.body.password, searchUser.password)
